@@ -1,55 +1,79 @@
 /* ========================================================= */
-/* src/index.css - Global Styles (Modern UI like Shopee/Gojek) */
+/* src/index.css - Global Styles (Fresh & Large App UI) */
 /* ========================================================= */
 
-/* 1. Tailwind Base Imports (WAJIB ADA) */
+/* 1. Tailwind Base Imports (Wajib Ada) */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* 2. Definisi Warna Kustom (Opsional, jika Anda ingin menggunakan warna yang sangat spesifik yang tidak ada di palet default Tailwind) 
-   Asumsi kita akan menggunakan warna default Tailwind (hijau-500, oranye-500) yang sudah bagus. 
-*/
+/* 2. Global Base Styles (Override dasar) */
+@layer base {
+    body {
+        /* Menggunakan font sistem standar (clean dan cepat) */
+        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+        background-color: #f0f2f5; /* Background sangat terang, sedikit abu-abu muda (clean) */
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+        color: #1a1a1a; /* Warna teks sangat gelap yang jelas */
+    }
 
-/* 3. Global Base Styles (Override dasar) */
-body {
-    /* Menggunakan font sistem standar (clean dan cepat) */
-    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-    background-color: #f7f7f7; /* Background sangat terang */
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    color: #333333; /* Warna teks gelap yang jelas */
+    /* Headings yang lebih bold dan modern */
+    h1, h2, h3, h4 {
+        @apply font-extrabold text-gray-800;
+    }
+    
+    h1 { @apply text-2xl md:text-3xl; }
+    h2 { @apply text-xl md:text-2xl; }
 }
 
-/* 4. Custom Components & Reusable UI Patterns */
+/* 3. Custom Components & Reusable UI Patterns */
 
-/* Kartu dengan shadow lembut (sering terlihat di UI modern) */
-.card-shadow {
-    /* Menerapkan shadow yang halus dan terangkat */
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-    @apply rounded-xl transition-shadow duration-300 hover:shadow-lg;
+@layer components {
+    
+    /* Kartu dengan Shadow Lembut & Terangkat (Elevated Card) */
+    .card-elevated {
+        /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05), 0 0 1px rgba(0, 0, 0, 0.05); */
+        /* Menggunakan shadow bawaan Tailwind yang lebih terdefinisi */
+        @apply bg-white rounded-xl shadow-md transition-all duration-300 hover:shadow-lg border border-gray-100;
+    }
+
+    /* Tombol Aksi Utama (Warna Khas Gojek/Shopee - Bold Green) */
+    .btn-action-primary {
+        @apply bg-green-600 text-white font-semibold py-3 px-6 rounded-xl 
+               transition-all duration-200 
+               hover:bg-green-700 
+               focus:ring-4 focus:ring-green-300 focus:outline-none 
+               active:scale-[0.98]; /* Efek klik yang modern */
+    }
+    
+    /* Tombol Aksi Sekunder (Outline Clean) */
+    .btn-action-secondary {
+        @apply bg-transparent border border-gray-300 text-gray-600 font-semibold py-3 px-6 rounded-xl 
+               transition-colors duration-200 
+               hover:bg-gray-100;
+    }
+
+    /* Navigasi Bawah (Bottom Nav) - Shadow Keras di Atas */
+    .bottom-nav-fixed {
+        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.06);
+        @apply bg-white fixed inset-x-0 bottom-0 z-50 p-2 border-t border-gray-100;
+    }
+
+    /* Input Form dengan Focus Highlight */
+    .input-clean {
+        @apply w-full p-3 border border-gray-300 rounded-lg 
+               focus:ring-2 focus:ring-green-500 focus:border-green-500 
+               transition-all placeholder-gray-500;
+    }
+
+    /* Utilitas: Kontainer Utama */
+    .max-w-app {
+        @apply max-w-lg mx-auto; /* Batasi lebar maksimum aplikasi untuk tampilan mobile */
+    }
+    
+    /* Utilitas: Status Loading */
+    .loading-spinner {
+        @apply animate-spin h-5 w-5 border-2 border-green-500 border-t-transparent rounded-full;
+    }
 }
-
-/* Tombol Aksi Utama (Mirip warna Gojek/Shopee, kita pakai hijau) */
-.btn-primary {
-    @apply bg-green-500 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 hover:bg-green-600 active:bg-green-700;
-}
-
-/* Navigasi Bawah (Bottom Nav) - Shadow khas mobile */
-.bottom-nav-shadow {
-    /* Menerapkan shadow di atas elemen */
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
-    @apply bg-white z-50;
-}
-
-/* Input Form Modern */
-.input-field {
-    @apply w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400 focus:border-green-400 transition-colors;
-}
-
-/* Rating Star (untuk konsistensi UI) */
-.star-rating-active {
-    @apply text-yellow-400 fill-yellow-400;
-}
-
-/* ========================================================= */
