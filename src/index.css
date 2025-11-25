@@ -1,79 +1,67 @@
 /* ========================================================= */
-/* src/index.css - Global Styles (Fresh & Large App UI) */
+/* src/index.css - GLOBAL STYLES (Professional & Scalable UI) */
 /* ========================================================= */
 
-/* 1. Tailwind Base Imports (Wajib Ada) */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* 2. Global Base Styles (Override dasar) */
+/* 1. GLOBAL BASE OVERRIDES */
 @layer base {
     body {
-        /* Menggunakan font sistem standar (clean dan cepat) */
-        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-        background-color: #f0f2f5; /* Background sangat terang, sedikit abu-abu muda (clean) */
-        line-height: 1.5;
-        -webkit-font-smoothing: antialiased;
-        color: #1a1a1a; /* Warna teks sangat gelap yang jelas */
-    }
-
-    /* Headings yang lebih bold dan modern */
-    h1, h2, h3, h4 {
-        @apply font-extrabold text-gray-800;
+        /* Warna background putih gading yang clean (seperti kertas) */
+        background-color: #f7f9fc; 
+        color: #212121;
+        @apply font-sans antialiased text-base;
     }
     
-    h1 { @apply text-2xl md:text-3xl; }
-    h2 { @apply text-xl md:text-2xl; }
+    /* Font size dan weight yang lebih tegas untuk Heading */
+    h1, h2 {
+        @apply font-extrabold text-gray-900;
+    }
 }
 
-/* 3. Custom Components & Reusable UI Patterns */
 
+/* 2. CUSTOM COMPONENTS & LAYOUTS (Meningkatkan Skala UI) */
 @layer components {
     
-    /* Kartu dengan Shadow Lembut & Terangkat (Elevated Card) */
-    .card-elevated {
-        /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05), 0 0 1px rgba(0, 0, 0, 0.05); */
-        /* Menggunakan shadow bawaan Tailwind yang lebih terdefinisi */
-        @apply bg-white rounded-xl shadow-md transition-all duration-300 hover:shadow-lg border border-gray-100;
+    /* Layout Utama Aplikasi (Penting untuk Fixed Header/Footer) */
+    .app-container {
+        /* Batasi lebar untuk pengalaman mobile-first yang baik, di tengah layar desktop */
+        @apply max-w-xl mx-auto min-h-screen bg-white shadow-xl overflow-hidden;
     }
 
-    /* Tombol Aksi Utama (Warna Khas Gojek/Shopee - Bold Green) */
+    /* Fixed Header/App Bar (Warna Solid khas Gojek/Shopee) */
+    .app-header-fixed {
+        @apply fixed top-0 inset-x-0 z-40 bg-green-500 shadow-lg text-white p-4 max-w-xl mx-auto;
+    }
+
+    /* Kartu Produk/Layanan (Dengan Depth dan Boundary) */
+    .card-depth {
+        /* Gabungan shadow yang lembut dan border yang tegas */
+        @apply bg-white rounded-xl shadow-md shadow-gray-200/50 border border-gray-100 transition-all duration-300 hover:shadow-xl;
+    }
+
+    /* Tombol Aksi Utama (Vibrant Green & Efek Klik) */
     .btn-action-primary {
-        @apply bg-green-600 text-white font-semibold py-3 px-6 rounded-xl 
-               transition-all duration-200 
-               hover:bg-green-700 
-               focus:ring-4 focus:ring-green-300 focus:outline-none 
-               active:scale-[0.98]; /* Efek klik yang modern */
+        @apply bg-green-500 text-white font-semibold text-lg py-3 px-6 rounded-xl 
+               transition-all duration-300 
+               hover:bg-green-600 
+               focus:ring-4 focus:ring-green-300 focus:outline-none
+               active:scale-[0.98]; 
     }
     
-    /* Tombol Aksi Sekunder (Outline Clean) */
-    .btn-action-secondary {
-        @apply bg-transparent border border-gray-300 text-gray-600 font-semibold py-3 px-6 rounded-xl 
-               transition-colors duration-200 
-               hover:bg-gray-100;
-    }
-
-    /* Navigasi Bawah (Bottom Nav) - Shadow Keras di Atas */
-    .bottom-nav-fixed {
-        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.06);
-        @apply bg-white fixed inset-x-0 bottom-0 z-50 p-2 border-t border-gray-100;
-    }
-
-    /* Input Form dengan Focus Highlight */
-    .input-clean {
-        @apply w-full p-3 border border-gray-300 rounded-lg 
-               focus:ring-2 focus:ring-green-500 focus:border-green-500 
+    /* Input Field dengan Focus Highlight yang Jelas */
+    .input-field-large {
+        @apply w-full p-4 border border-gray-300 rounded-xl text-base
+               focus:border-green-500 focus:ring-2 focus:ring-green-500/50 
                transition-all placeholder-gray-500;
     }
 
-    /* Utilitas: Kontainer Utama */
-    .max-w-app {
-        @apply max-w-lg mx-auto; /* Batasi lebar maksimum aplikasi untuk tampilan mobile */
-    }
-    
-    /* Utilitas: Status Loading */
-    .loading-spinner {
-        @apply animate-spin h-5 w-5 border-2 border-green-500 border-t-transparent rounded-full;
+    /* Navigasi Bawah (Bottom Nav) - Fixed & Elevated */
+    .bottom-nav-fixed {
+        /* Shadow yang kuat dari atas, mirip aplikasi besar */
+        box-shadow: 0 -8px 15px rgba(0, 0, 0, 0.1); 
+        @apply fixed inset-x-0 bottom-0 z-50 bg-white p-3 border-t border-gray-100 max-w-xl mx-auto;
     }
 }
