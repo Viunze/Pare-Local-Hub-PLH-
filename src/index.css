@@ -1,0 +1,55 @@
+/* ========================================================= */
+/* src/index.css - Global Styles (Modern UI like Shopee/Gojek) */
+/* ========================================================= */
+
+/* 1. Tailwind Base Imports (WAJIB ADA) */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 2. Definisi Warna Kustom (Opsional, jika Anda ingin menggunakan warna yang sangat spesifik yang tidak ada di palet default Tailwind) 
+   Asumsi kita akan menggunakan warna default Tailwind (hijau-500, oranye-500) yang sudah bagus. 
+*/
+
+/* 3. Global Base Styles (Override dasar) */
+body {
+    /* Menggunakan font sistem standar (clean dan cepat) */
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    background-color: #f7f7f7; /* Background sangat terang */
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    color: #333333; /* Warna teks gelap yang jelas */
+}
+
+/* 4. Custom Components & Reusable UI Patterns */
+
+/* Kartu dengan shadow lembut (sering terlihat di UI modern) */
+.card-shadow {
+    /* Menerapkan shadow yang halus dan terangkat */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    @apply rounded-xl transition-shadow duration-300 hover:shadow-lg;
+}
+
+/* Tombol Aksi Utama (Mirip warna Gojek/Shopee, kita pakai hijau) */
+.btn-primary {
+    @apply bg-green-500 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 hover:bg-green-600 active:bg-green-700;
+}
+
+/* Navigasi Bawah (Bottom Nav) - Shadow khas mobile */
+.bottom-nav-shadow {
+    /* Menerapkan shadow di atas elemen */
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+    @apply bg-white z-50;
+}
+
+/* Input Form Modern */
+.input-field {
+    @apply w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400 focus:border-green-400 transition-colors;
+}
+
+/* Rating Star (untuk konsistensi UI) */
+.star-rating-active {
+    @apply text-yellow-400 fill-yellow-400;
+}
+
+/* ========================================================= */
