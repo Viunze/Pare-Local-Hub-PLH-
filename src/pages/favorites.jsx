@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth.jsx';
-import { useFirestore } from '../hooks/useFirestore'; // Asumsi Anda punya hook untuk mengambil daftar favorit
+import { useFirestore } from '../hooks/useFirestore.jsx'; // Asumsi Anda punya hook untuk mengambil daftar favorit
 import { BottomNav } from '../components/common/BottomNav';
 import CustomCard from '../components/common/CustomCard'; // DEFAULT IMPORT yang benar
 import { Heart, Utensils, ShoppingBag } from 'lucide-react';
