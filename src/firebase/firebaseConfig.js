@@ -1,11 +1,11 @@
-// src/firebase/firebaseConfig.js (Perbaikan Penuh)
+// src/firebase/firebaseConfig.js
 
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth"; // <-- Tambahkan ini untuk Auth
-import { getFirestore } from "firebase/firestore"; // <-- Tambahkan ini untuk Firestore
+import { getAuth } from "firebase/auth"; 
+import { getFirestore } from "firebase/firestore";
 
+// Konfigurasi Firebase menggunakan Environment Variables dari Vercel/Vite
 const firebaseConfig = {
-  // Pastikan semua VITE_... environment variables ada di Vercel
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
@@ -15,12 +15,11 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
-// Inisialisasi Firebase
+// Inisialisasi Firebase App
 const app = initializeApp(firebaseConfig);
 
-// Inisialisasi Services dan Export sebagai Named Exports
-export const auth = getAuth(app);    // <-- PENTING: Export 'auth'
-export const db = getFirestore(app); // <-- Export 'db' untuk useFirestore
+// Inisialisasi Services dan Export sebagai Named Exports (Perbaikan error "auth is not exported")
+export const auth = getAuth(app);    
+export const db = getFirestore(app); 
 
-// Catatan: 'app' juga bisa diekspor jika diperlukan
-// export { app };
+export default app; // Export default app juga, jika diperlukan
