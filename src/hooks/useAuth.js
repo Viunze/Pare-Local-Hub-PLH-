@@ -1,13 +1,19 @@
 // src/hooks/useAuth.js
 
-import { useState, useEffect } from 'react';
-import { onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
-// ✅ Import 'auth' yang sudah diexport sebagai Named Export
-import { auth } from '../firebase/firebaseConfig';
+import React, { useState, useEffect, useContext, createContext } from 'react';
+import { onAuthStateChanged, /* signInWithPopup, signOut, GoogleAuthProvider */ } from 'firebase/auth';
+import { auth } from '../firebase/firebaseConfig'; // Asumsi auth sudah diimpor
 
-const googleProvider = new GoogleAuthProvider();
+// 1. Definisikan Context
+const AuthContext = createContext(null);
 
+// 2. Definisikan Hook
 export const useAuth = () => {
+    return useContext(AuthContext);
+};
+
+// 3. Definisikan Provider
+export const AuthProvider = ({ children }) => { // 🛑 HARUS DIEKSPOR SEBAGAI NAMED EXPORT
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     
@@ -19,10 +25,12 @@ export const useAuth = () => {
         return () => unsubscribe();
     }, []);
 
-    const signIn = () => signInWithPopup(auth, googleProvider);
-    const logOut = () => signOut(auth);
+    // Gabungkan signIn/signOut/logOut jika Anda memilikinya di sini
+    const value = { user, isLoading, /* signIn, logOut */ };
 
-    return { user, isLoading, signIn, logOut };
+    return (
+        <AuthContext.Provider value={value}>
+            {!isLoading && children}
+        </AuthContext.Provider>
+    );
 };
-
-// ... (Asumsi Anda punya AuthProvider yang membungkus aplikasi)
