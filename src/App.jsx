@@ -5,7 +5,7 @@ import React from 'react';
 
 // Import untuk Routing dan Context
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './hooks/useAuth.js'; 
+import { AuthProvider } from './hooks/useAuth.jsx'; 
 import { FirestoreProvider } from './hooks/useFirestore.js'; 
 
 // Import Halaman (Anda harus menambahkan semua halaman yang Anda gunakan di Routes)
