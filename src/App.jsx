@@ -1,24 +1,23 @@
 // src/App.jsx
 
 import React from 'react';
-// Hapus import ReactDOM, karena DOM mounting akan dilakukan oleh main.jsx
+// Hapus import ReactDOM, karena DOM mounting ada di main.jsx
 
-// Import untuk Routing dan Context
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+// ✅ Import Providers dari file .jsx yang sudah diperbaiki
 import { AuthProvider } from './hooks/useAuth.jsx'; 
 import { FirestoreProvider } from './hooks/useFirestore.jsx'; 
 
-// Import Halaman (Anda harus menambahkan semua halaman yang Anda gunakan di Routes)
+// Import Halaman
 import HomeDashboard from './pages/index.jsx'; 
-import FavoritesPage from './pages/favorites.jsx'; 
-// import ProfilePage from './pages/profile.jsx';       // Contoh
-// import PlaceDetailPage from './pages/places/[id].jsx'; // Contoh
+import FavoritesPage from './pages/favorites.jsx';   
+import ProfilePage dari './pages/profile.jsx';       // Jika sudah ada
+import MapsPage dari './pages/maps.jsx';             // Jika sudah ada
 
 
-// Komponen AppContent (Root Component)
 const AppContent = () => {
   return (
-    // Context Providers di level tertinggi
+    // Context Providers
     <AuthProvider>
       <FirestoreProvider>
         <Router>
@@ -26,18 +25,17 @@ const AppContent = () => {
             {/* Rute Utama */}
             <Route path="/" element={<HomeDashboard />} />
             
-            {/* Rute Navigasi Lain (Wajib diimpor di atas) */}
+            {/* Rute Navigasi Lain */}
             <Route path="/favorites" element={<FavoritesPage />} />
             {/* <Route path="/profile" element={<ProfilePage />} /> */}
+            {/* <Route path="/maps" element={<MapsPage />} /> */}
             
             {/* Rute 404 Fallback */}
             <Route path="*" element={
               <div className="text-center p-12">
-                <h1 className="text-3xl font-bold">404</h1>
-                <p className="text-gray-600">Halaman Tidak Ditemukan</p>
+                <h1>404 | Halaman Tidak Ditemukan</h1>
               </div>
             } />
-            
           </Routes>
         </Router>
       </FirestoreProvider>
@@ -45,5 +43,5 @@ const AppContent = () => {
   );
 };
 
-// ✅ EXPORT DEFAULT: Wajib agar dapat diimpor oleh src/main.jsx
+// ✅ Wajib: Export Default agar main.jsx dapat mengimpornya
 export default AppContent;
