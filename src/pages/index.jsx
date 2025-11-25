@@ -1,17 +1,18 @@
 // src/pages/index.jsx
 
 import React from 'react';
-// ✅ IMPORT LOGO SVG: Sekarang file ini benar-benar ada di src/assets/
+// ✅ IMPORT LOGO SVG
 import LogoSVG from '../assets/logo.svg'; 
 
 import { useAuth } from '../hooks/useAuth';
 import { useFirestore } from '../hooks/useFirestore';
+// ✅ DEFAULT IMPORT
 import CustomCard from '../components/common/CustomCard'; 
 import { BottomNav } from '../components/common/BottomNav';
 import { SearchBar } from '../components/common/SearchBar'; 
 
 const HomeDashboard = () => {
-  // Gunakan nilai default array kosong untuk mencegah crash jika data masih null saat loading
+  // Menggunakan default array kosong untuk mencegah crash jika data null
   const { data: places = [], isLoading: placesLoading } = useFirestore('places', {
     orderBy: ['average_rating', 'desc'],
     limit: 4
@@ -26,6 +27,7 @@ const HomeDashboard = () => {
   const isLoading = authLoading || placesLoading || productsLoading;
   
   const handleCardClick = (id, type) => {
+    // Asumsi routing ke halaman detail
     window.location.href = `/${type}/${id}`;
   };
 
@@ -40,7 +42,6 @@ const HomeDashboard = () => {
                 src={LogoSVG} 
                 alt="Pare Local Hub Logo" 
                 className="h-8 w-auto mr-3"
-                // Fallback sederhana jika logo gagal dimuat
                 onError={(e) => { e.target.onerror = null; e.target.src="https://via.placeholder.com/32x32/10B981/ffffff?text=PLH" }}
             /> 
             <div>
@@ -57,7 +58,7 @@ const HomeDashboard = () => {
       <main className="p-4">
         {isLoading && <p className="text-center mt-8">Memuat data...</p>}
         
-        {/* --- Bagian Kuliner Populer --- */}
+        {/* Konten Kuliner Populer */}
         <section className="mt-6">
           <h2 className="text-xl font-bold text-gray-800 mb-3">🔥 Kuliner Populer Pelajar</h2>
           <div className="grid grid-cols-2 gap-4">
@@ -78,7 +79,7 @@ const HomeDashboard = () => {
           <button className="w-full text-center mt-4 text-green-600 font-medium hover:text-green-700">Lihat Semua Tempat</button>
         </section>
 
-        {/* --- Bagian Produk UMKM Terbaru --- */}
+        {/* Konten Produk UMKM Terbaru */}
         <section className="mt-8">
           <h2 className="text-xl font-bold text-gray-800 mb-3">🛍️ Produk Lokal Terbaru</h2>
           <div className="grid grid-cols-2 gap-4">
