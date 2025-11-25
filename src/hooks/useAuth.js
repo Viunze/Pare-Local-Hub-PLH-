@@ -2,40 +2,39 @@
 
 import { useState, useEffect } from 'react';
 import { onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
+// Import 'auth' yang sudah diexport sebagai Named Export
 import { auth } from '../firebase/firebaseConfig';
 
 const googleProvider = new GoogleAuthProvider();
 
+// Implementasi useAuth Anda
 export const useAuth = () => {
-  const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+    const [user, setUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    // onAuthStateChanged akan selalu mendengarkan perubahan status login
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setIsLoading(false);
-    });
+    // ... (fungsi sign in, sign out, dan useEffect)
+    
+    // Contoh implementasi dasar:
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+            setIsLoading(false);
+        });
+        return () => unsubscribe();
+    }, []);
 
-    // Cleanup function: berhenti mendengarkan ketika komponen di-unmount
-    return () => unsubscribe();
-  }, []);
+    const signIn = () => signInWithPopup(auth, googleProvider);
+    const logOut = () => signOut(auth);
 
-  const signInWithGoogle = async () => {
-    try {
-      await signInWithPopup(auth, googleProvider);
-    } catch (error) {
-      console.error("Error signing in with Google:", error.message);
-    }
-  };
+    return { user, isLoading, signIn, logOut };
+};
 
-  const logout = async () => {
-    try {
-      await signOut(auth);
-    } catch (error) {
-      console.error("Error signing out:", error.message);
-    }
-  };
-
-  return { user, isLoading, signInWithGoogle, logout };
+// Asumsi Anda juga memiliki AuthProvider, contoh dasarnya:
+export const AuthProvider = ({ children }) => {
+    const authValues = useAuth();
+    return (
+        <AuthContext.Provider value={authValues}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
