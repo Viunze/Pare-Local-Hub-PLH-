@@ -4,8 +4,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useFirestore } from '../hooks/useFirestore'; // Asumsi Anda punya hook untuk mengambil daftar favorit
 import { BottomNav } from '../components/common/BottomNav';
-// ✅ PERBAIKAN: Menggunakan Default Import (tanpa {})
-import CustomCard from '../components/common/CustomCard'; 
+import CustomCard from '../components/common/CustomCard'; // DEFAULT IMPORT yang benar
 import { Heart, Utensils, ShoppingBag } from 'lucide-react';
 // import { useNavigate } from 'react-router-dom'; // Gunakan useNavigate jika ingin routing yang lebih modern
 
