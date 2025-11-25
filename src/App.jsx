@@ -1,29 +1,43 @@
 // src/App.jsx
 
 import React from 'react';
-// 🛑 KRITIS: Import ReactDOM untuk melakukan DOM mounting
-import ReactDOM from 'react-dom/client'; 
+// Hapus import ReactDOM, karena DOM mounting akan dilakukan oleh main.jsx
 
 // Import untuk Routing dan Context
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './hooks/useAuth.js'; 
 import { FirestoreProvider } from './hooks/useFirestore.js'; 
 
-// Import Halaman
+// Import Halaman (Anda harus menambahkan semua halaman yang Anda gunakan di Routes)
 import HomeDashboard from './pages/index.jsx'; 
-// Asumsi halaman lain juga sudah di-import di sini...
+import FavoritesPage from './pages/favorites.jsx'; 
+// import ProfilePage from './pages/profile.jsx';       // Contoh
+// import PlaceDetailPage from './pages/places/[id].jsx'; // Contoh
 
 
-// Komponen yang berisi Router dan Providers
+// Komponen AppContent (Root Component)
 const AppContent = () => {
   return (
+    // Context Providers di level tertinggi
     <AuthProvider>
       <FirestoreProvider>
         <Router>
           <Routes>
+            {/* Rute Utama */}
             <Route path="/" element={<HomeDashboard />} />
-            {/* ... Rute halaman lainnya ... */}
-            <Route path="*" element={<h1>404 | Halaman Tidak Ditemukan</h1>} />
+            
+            {/* Rute Navigasi Lain (Wajib diimpor di atas) */}
+            <Route path="/favorites" element={<FavoritesPage />} />
+            {/* <Route path="/profile" element={<ProfilePage />} /> */}
+            
+            {/* Rute 404 Fallback */}
+            <Route path="*" element={
+              <div className="text-center p-12">
+                <h1 className="text-3xl font-bold">404</h1>
+                <p className="text-gray-600">Halaman Tidak Ditemukan</p>
+              </div>
+            } />
+            
           </Routes>
         </Router>
       </FirestoreProvider>
@@ -31,17 +45,5 @@ const AppContent = () => {
   );
 };
 
-// 🛑 KRITIS: FUNGSI UNTUK ME-RENDER APLIKASI KE DOM
-const rootElement = document.getElementById('root');
-
-// Pastikan elemen root ditemukan dan render aplikasi
-if (rootElement) {
-    ReactDOM.createRoot(rootElement).render(
-      <React.StrictMode>
-        <AppContent />
-      </React.StrictMode>
-    );
-}
-
-// Tidak perlu diexport karena file ini melakukan rendering DOM, bukan sekedar komponen
-// export default AppContent;
+// ✅ EXPORT DEFAULT: Wajib agar dapat diimpor oleh src/main.jsx
+export default AppContent;
