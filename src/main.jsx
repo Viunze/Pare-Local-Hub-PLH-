@@ -2,10 +2,12 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-// Import AppContent sebagai root component
+// 🛑 KRITIS: Import AppContent sebagai root component
 import AppContent from './App.jsx'; 
-import './index.css'; // Asumsi Anda memiliki file CSS global
+// ✅ KRITIS: Memuat CSS global (yang mengatasi masalah styling)
+import './index.css'; 
 
+// Melakukan DOM mounting
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AppContent />
