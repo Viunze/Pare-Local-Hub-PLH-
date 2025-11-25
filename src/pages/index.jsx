@@ -5,7 +5,7 @@ import React from 'react';
 import LogoSVG from '../assets/logo.svg'; 
 
 import { useAuth } from '../hooks/useAuth.jsx'; // Ini akan berfungsi karena App.jsx menyediakan Provider
-import { useFirestore } from '../hooks/useFirestore';
+import { useFirestore } from '../hooks/useFirestore.jsx';
 import CustomCard from '../components/common/CustomCard'; 
 import { BottomNav } from '../components/common/BottomNav';
 import { SearchBar } from '../components/common/SearchBar'; 
