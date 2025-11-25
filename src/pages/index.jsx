@@ -1,36 +1,27 @@
-// src/pages/index.jsx
+// src/pages/index.jsx (Sederhanakan untuk Debugging)
 
 import React from 'react';
-// ❌ HAPUS BARIS INI UNTUK SEMENTARA:
+
+// Hapus semua import hooks dan komponen lain untuk sementara
+// import { useAuth } from '../hooks/useAuth'; 
+// import CustomCard from '../components/common/CustomCard'; 
 // import LogoSVG from '../assets/logo.svg'; 
 
-import { useAuth } from '../hooks/useAuth';
-// ... (import hooks dan komponen lainnya)
-
-// ...
-  return (
-    <div className="min-h-screen bg-gray-50 pb-20">
-      
-      {/* Header & Search */}
-      <header className="p-4 bg-green-500 shadow-lg">
-        {/* ✅ MODIFIKASI: HAPUS TAG <img> */}
-        <div className="flex items-center mb-2">
-            {/* ❌ HAPUS TAG <img> YANG MENGGUNAKAN LogoSVG */}
-            {/* <img src={LogoSVG} alt="Pare Local Hub Logo" className="h-8 w-auto mr-3"/> */}
-            <div>
-                <h1 className="text-2xl font-bold text-white">Pare Local Hub</h1>
-                <p className="text-sm text-white/90">Panduan Kuliner & UMKM Kampung Inggris</p>
-            </div>
+const HomeDashboard = () => {
+    // Jika Anda melihat ini, masalahnya BUKAN pada inisialisasi React/DOM.
+    return (
+        <div style={{ 
+            height: '100vh', 
+            backgroundColor: '#FFEBEE', // Warna terang agar terlihat jelas
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            fontSize: '24px',
+            color: '#D32F2F' 
+        }}>
+            <h1>✅ RENDER SUKSES! APLIKASI SEHARUSNYA MUNCUL!</h1>
         </div>
-
-        <div className="mt-3">
-          <SearchBar placeholder="Cari Tempat Makan atau Produk..." />
-        </div>
-      </header>
-
-      {/* ... (Konten lainnya) */}
-    </div>
-  );
+    );
 };
 
 export default HomeDashboard;
