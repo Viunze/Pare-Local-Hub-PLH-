@@ -1,111 +1,91 @@
-// src/components/kuliner/ReviewForm.jsx
-
 import React, { useState } from 'react';
-import { db } from '../../firebase/firebaseConfig';
-import { collection, addDoc, serverTimestamp, runTransaction, doc } from 'firebase/firestore';
-import { useAuth } from '../../hooks/useAuth';
 import { Star } from 'lucide-react';
 
-export const ReviewForm = ({ placeId, onReviewSuccess }) => {
-  const { user } = useAuth();
+/**
+ * Formulir untuk mengirimkan Review dan Rating.
+ * Menggunakan custom classes input-field dan btn-primary.
+ */
+const ReviewForm = ({ placeId, onSubmitReview }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState(null);
 
-  if (!user) {
-    return <p className="text-center text-red-500">Anda harus login untuk memberikan review.</p>;
-  }
-
+  // Fungsi untuk menangani submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (rating === 0 || comment.trim() === '') {
-      setError('Mohon isi rating bintang dan komentar.');
-      return;
-    }
+    if (!comment.trim() || rating === 0) return;
 
     setIsSubmitting(true);
-    setError(null);
-    const placeRef = doc(db, 'places', placeId);
+    
+    // Simulasikan pengiriman data ke Firebase
+    await new Promise(resolve => setTimeout(resolve, 1500)); 
 
-    try {
-      await runTransaction(db, async (transaction) => {
-        // 1. Tambah Review Baru ke Sub-Koleksi
-        const newReviewRef = doc(collection(placeRef, 'reviews'));
-        transaction.set(newReviewRef, {
-          userId: user.uid,
-          userName: user.displayName || 'Anonim',
-          rating: rating,
-          comment: comment.trim(),
-          timestamp: serverTimestamp(),
-        });
+    const newReview = {
+      placeId,
+      rating,
+      comment,
+      createdAt: new Date().toISOString(),
+      // Tambahkan detail user dari Auth context jika ada
+      userName: 'User Testing', 
+    };
 
-        // 2. Update Rata-rata Rating di Dokumen Utama (places)
-        const placeDoc = await transaction.get(placeRef);
-        if (!placeDoc.exists()) throw "Dokumen tempat tidak ditemukan!";
-
-        const currentData = placeDoc.data();
-        const totalReviews = (currentData.total_reviews || 0) + 1;
-        const currentSumRating = (currentData.average_rating || 0) * (currentData.total_reviews || 0);
-        const newAverageRating = (currentSumRating + rating) / totalReviews;
-
-        transaction.update(placeRef, {
-          average_rating: newAverageRating,
-          total_reviews: totalReviews,
-        });
-      });
-
-      setRating(0);
-      setComment('');
-      onReviewSuccess && onReviewSuccess(); // Notifikasi success
-      alert('Review berhasil ditambahkan!');
-
-    } catch (e) {
-      console.error("Error adding review or updating rating:", e);
-      setError('Gagal menyimpan review. Coba lagi.');
-    } finally {
-      setIsSubmitting(false);
-    }
+    onSubmitReview(newReview); // Panggil fungsi dari prop
+    
+    // Reset form
+    setRating(0);
+    setComment('');
+    setIsSubmitting(false);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 border rounded-lg bg-white mt-4">
-      <h3 className="font-bold text-lg mb-3">Beri Nilai Tempat Ini</h3>
-      
-      {/* Input Rating Bintang */}
-      <div className="flex space-x-1 mb-3">
-        {[1, 2, 3, 4, 5].map((star) => (
-          <Star
-            key={star}
-            size={30}
-            className={`cursor-pointer transition-colors ${
-              star <= rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
-            }`}
-            onClick={() => setRating(star)}
+    <div className="bg-white p-6 **card-shadow**">
+      <h3 className="text-xl font-bold mb-4 text-gray-800">Tulis Review Anda</h3>
+      <form onSubmit={handleSubmit}>
+        
+        {/* Rating Section */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-2">Beri Rating:</label>
+          <div className="flex space-x-1">
+            {[1, 2, 3, 4, 5].map((starValue) => (
+              <Star
+                key={starValue}
+                className={`h-7 w-7 cursor-pointer transition-colors ${
+                  starValue <= rating 
+                    ? '**star-rating-active**' // Custom class untuk warna aktif
+                    : 'text-gray-300'
+                }`}
+                onClick={() => setRating(starValue)}
+                fill={starValue <= rating ? '#facc15' : 'none'} // Warna fill langsung untuk bintang
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Komentar Section */}
+        <div className="mb-4">
+          <label htmlFor="comment" className="block text-sm font-medium text-gray-700 mb-2">Komentar:</label>
+          <textarea
+            id="comment"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            className="**input-field** resize-none" // <-- Menggunakan custom class
+            rows="4"
+            placeholder="Bagikan pengalaman Anda tentang tempat ini..."
+            required
           />
-        ))}
-      </div>
-      
-      {/* Input Komentar */}
-      <textarea
-        className="w-full p-2 border rounded resize-none focus:ring-green-500 focus:border-green-500"
-        rows="3"
-        placeholder="Bagaimana pengalaman Anda? (Min 10 karakter)"
-        value={comment}
-        onChange={(e) => setComment(e.target.value)}
-        minLength={10}
-        required
-      />
+        </div>
 
-      {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="mt-3 w-full bg-green-500 text-white p-2 rounded-lg font-semibold hover:bg-green-600 disabled:bg-green-300 transition-colors"
-      >
-        {isSubmitting ? 'Mengirim...' : 'Kirim Review'}
-      </button>
-    </form>
+        {/* Tombol Submit */}
+        <button
+          type="submit"
+          disabled={isSubmitting || rating === 0}
+          className="mt-2 w-full **btn-primary** disabled:bg-gray-400 disabled:cursor-not-allowed" // <-- Menggunakan custom class
+        >
+          {isSubmitting ? 'Mengirim Review...' : 'Kirim Review'}
+        </button>
+      </form>
+    </div>
   );
 };
+
+export default ReviewForm;
