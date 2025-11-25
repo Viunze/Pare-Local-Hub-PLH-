@@ -1,18 +1,17 @@
-// src/pages/index.jsx
+// src/pages/index.jsx (HANYA Komponen Halaman, Tidak Ada Initialization DOM)
 
 import React from 'react';
-// ✅ IMPORT LOGO SVG
+// Import logo sekarang sudah aman karena file sudah Anda buat/upload
 import LogoSVG from '../assets/logo.svg'; 
 
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../hooks/useAuth'; // Ini akan berfungsi karena App.jsx menyediakan Provider
 import { useFirestore } from '../hooks/useFirestore';
-// ✅ DEFAULT IMPORT
 import CustomCard from '../components/common/CustomCard'; 
 import { BottomNav } from '../components/common/BottomNav';
 import { SearchBar } from '../components/common/SearchBar'; 
 
 const HomeDashboard = () => {
-  // Menggunakan default array kosong untuk mencegah crash jika data null
+  // Hooks sekarang aman karena dijalankan di dalam Provider (dari App.jsx)
   const { data: places = [], isLoading: placesLoading } = useFirestore('places', {
     orderBy: ['average_rating', 'desc'],
     limit: 4
@@ -27,7 +26,7 @@ const HomeDashboard = () => {
   const isLoading = authLoading || placesLoading || productsLoading;
   
   const handleCardClick = (id, type) => {
-    // Asumsi routing ke halaman detail
+    // Navigasi
     window.location.href = `/${type}/${id}`;
   };
 
@@ -37,7 +36,6 @@ const HomeDashboard = () => {
       {/* Header & Search */}
       <header className="p-4 bg-green-500 shadow-lg">
         <div className="flex items-center mb-2">
-            {/* ✅ PENGGUNAAN LOGO */}
             <img 
                 src={LogoSVG} 
                 alt="Pare Local Hub Logo" 
