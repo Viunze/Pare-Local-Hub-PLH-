@@ -4,7 +4,7 @@ import React from 'react';
 // Import logo sekarang sudah aman karena file sudah Anda buat/upload
 import LogoSVG from '../assets/logo.svg'; 
 
-import { useAuth } from '../hooks/useAuth'; // Ini akan berfungsi karena App.jsx menyediakan Provider
+import { useAuth } from '../hooks/useAuth.jsx'; // Ini akan berfungsi karena App.jsx menyediakan Provider
 import { useFirestore } from '../hooks/useFirestore';
 import CustomCard from '../components/common/CustomCard'; 
 import { BottomNav } from '../components/common/BottomNav';
